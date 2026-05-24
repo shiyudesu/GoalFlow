@@ -1,0 +1,55 @@
+# GoalFlow 配置文件模板
+
+# LLM 配置
+llm:
+  model: gpt-4o
+  # api_key: 优先从环境变量 GOALFLOW_API_KEY / OPENAI_API_KEY 读取
+  # base_url: 自定义 API 基础地址（如使用本地模型）
+  temperature: 0.2
+  max_tokens: 4096
+
+# 工作流配置
+workflow:
+  # 全局默认模式: auto（自动跳过检查点）或 manual（每阶段暂停等待人工）
+  default_mode: auto
+  # 按阶段覆盖
+  checkpoint_override:
+    clarify: auto
+    plan: auto
+    locate: auto
+    code: auto
+    test: auto
+    deploy: manual  # 部署阶段默认人工确认
+
+  # 防漂移配置
+  anti_drift:
+    # 一致性校验覆盖率阈值（低于此值视为不合格）
+    coverage_threshold: 90
+    # 每个原子任务最大重试次数
+    max_task_attempts: 5
+    # 每个阶段最大重试次数
+    max_stage_attempts: 3
+    # 全局回溯校验间隔（每 N 个阶段执行一次）
+    global_check_interval: 3
+
+# GitHub 配置
+github:
+  # token: 优先从环境变量 GITHUB_TOKEN 读取
+  # PR 基础分支
+  base_branch: main
+  # 是否自动请求 CODEOWNERS review
+  request_codeowners_review: true
+  # 是否 PR 通过 review 后自动合并
+  auto_merge: false
+  # PR 最大修复轮次
+  max_pr_fix_iterations: 10
+
+# 存储配置
+storage:
+  session_db: .goalflow/sessions.db
+  memory_db: .goalflow/memory.db
+
+# API 配置（Web 模式）
+api:
+  host: 0.0.0.0
+  port: 8000

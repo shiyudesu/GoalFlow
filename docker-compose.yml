@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  goalflow:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./.goalflow:/app/.goalflow
+      - ./repos:/repos
+    environment:
+      - GOALFLOW_MODE=auto
+    command: ["uv", "run", "uvicorn", "goalflow.api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  # 可选：PostgreSQL 用于生产级部署
+  # db:
+  #   image: postgres:16-alpine
+  #   environment:
+  #     POSTGRES_USER: goalflow
+  #     POSTGRES_PASSWORD: goalflow
+  #     POSTGRES_DB: goalflow
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   pgdata:

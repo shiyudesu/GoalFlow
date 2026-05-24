@@ -1,0 +1,12 @@
+.git/
+.gitignore
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.goalflow/
+*.db
+.env
